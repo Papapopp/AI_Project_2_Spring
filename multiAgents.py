@@ -220,8 +220,60 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         """
         Returns the minimax action using self.depth and self.evaluationFunction
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        scaledDepthLimit = self.depth*gameState.getNumAgents()
+        value = -100000000
+        alpha = 100000000
+        beta = -100000000
+        for action in gameState.getLegalActions(0):
+            candidate = self.getValue(gameState.generateSuccessor(0, action),
+                                             2, 1, scaledDepthLimit, alpha, beta)
+            if candidate > value:
+                value = candidate
+                move = action
+        return move
+
+
+
+    def getValue(self, gameState, currentDepth, agentIndex, scaledDepthLimit, alpha, beta):
+        """
+        Current depth tells the recursive function how deep it is based on the call stack.
+        For example, at the top of the minimax tree, currentDepth = 1. When this function
+        is called to evaluate the agent acting directly next, currentdepth = 2.
+
+        Scaled Depth is the maximum number of recursive calls that can be resolved in the minimax search.
+        It varies based on the depth allowed and the number of agents.
+        """
+        if gameState.isLose() or gameState.isWin():
+            return self.evaluationFunction(gameState)
+        if currentDepth > scaledDepthLimit:
+            return self.evaluationFunction(gameState)
+        if agentIndex == 0:
+            return self.maxValue(gameState, currentDepth, agentIndex, scaledDepthLimit, alpha, beta)
+        else:
+            return self.minValue(gameState, currentDepth, agentIndex, scaledDepthLimit, alpha, beta)
+
+
+    def maxValue(self, gameState, currentDepth, agentIndex, scaledDepthLimit, alpha, beta):
+        value = -100000000
+        for act in gameState.getLegalActions(agentIndex):
+            nextAgent = (agentIndex+1)%gameState.getNumAgents()
+            value = max(value, self.getValue(gameState.generateSuccessor(agentIndex, act),
+                                             currentDepth+1, nextAgent, scaledDepthLimit, alpha, beta))
+            if value > beta:
+                return value
+            alpha = max(alpha, value)
+        return value
+
+    def minValue(self, gameState, currentDepth, agentIndex, scaledDepthLimit, alpha, beta):
+        value = +100000000
+        for act in gameState.getLegalActions(agentIndex):
+            nextAgent = (agentIndex + 1) % gameState.getNumAgents()
+            value = min(value, self.getValue(gameState.generateSuccessor(agentIndex, act),
+                                             currentDepth + 1, nextAgent, scaledDepthLimit, alpha, beta))
+            if value < alpha:
+                return value
+            beta = min(beta, value)
+        return value
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
