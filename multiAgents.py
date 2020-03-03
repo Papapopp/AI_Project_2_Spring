@@ -74,7 +74,37 @@ class ReflexAgent(Agent):
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
         "*** YOUR CODE HERE ***"
-        return successorGameState.getScore()
+        "Features to integrate: " \
+        "- avFoodDist || av new distance from all food (excluding the one that may be eaten)" \
+        "+ eatBonus || fixed value for eating a food" \
+        "- deathwish || fixed value for getting within 1 square of any non-scared ghost" \
+        "+ dangerSense || av new distance from all non-scared ghosts" \
+        "- huntingSense || av new distance from all scared ghost"
+        avFoodDist = 0
+        foodList = newFood.asList()
+        for food in foodList:
+            avFoodDist += util.manhattanDistance(food, newPos)
+        avFoodDist /= max(newFood.count(), 1)
+        eatBonus = 0
+        if (currentGameState.getNumFood() > successorGameState.getNumFood()):
+            eatBonus = 1
+        deathwish = 0
+        dangerSense = 0
+        dangers = 0
+        huntingSense = 0
+        for ghost in newGhostStates:
+            if ghost.scaredTimer == 0:
+                dangers += 1
+                temp = util.manhattanDistance(newPos, ghost.getPosition())
+                dangerSense += temp
+                if temp < 2:
+                    deathwish += 1
+            else:
+                huntingSense += util.manhattanDistance(newPos, ghost.getPosition())
+        dangerSense /= max(dangers, 1)
+        huntingSense /= max(len(newGhostStates) - dangers, 1)
+
+        return -avFoodDist + 100*eatBonus - 10*deathwish + 0.5*dangerSense - huntingSense
 
 def scoreEvaluationFunction(currentGameState):
     """
@@ -134,8 +164,52 @@ class MinimaxAgent(MultiAgentSearchAgent):
         gameState.isLose():
         Returns whether or not the game state is a losing state
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        scaledDepthLimit = self.depth*gameState.getNumAgents()
+        value = -100000000
+        for action in gameState.getLegalActions(0):
+            candidate = self.getValue(gameState.generateSuccessor(0, action),
+                                             2, 1, scaledDepthLimit)
+            if candidate > value:
+                value = candidate
+                move = action
+        return move
+
+
+
+    def getValue(self, gameState, currentDepth, agentIndex, scaledDepthLimit):
+        """
+        Current depth tells the recursive function how deep it is based on the call stack.
+        For example, at the top of the minimax tree, currentDepth = 1. When this function
+        is called to evaluate the agent acting directly next, currentdepth = 2.
+
+        Scaled Depth is the maximum number of recursive calls that can be resolved in the minimax search.
+        It varies based on the depth allowed and the number of agents.
+        """
+        if gameState.isLose() or gameState.isWin():
+            return self.evaluationFunction(gameState)
+        if currentDepth > scaledDepthLimit:
+            return self.evaluationFunction(gameState)
+        if agentIndex == 0:
+            return self.maxValue(gameState, currentDepth, agentIndex, scaledDepthLimit)
+        else:
+            return self.minValue(gameState, currentDepth, agentIndex, scaledDepthLimit)
+
+
+    def maxValue(self, gameState, currentDepth, agentIndex, scaledDepthLimit):
+        value = -100000000
+        for act in gameState.getLegalActions(agentIndex):
+            nextAgent = (agentIndex+1)%gameState.getNumAgents()
+            value = max(value, self.getValue(gameState.generateSuccessor(agentIndex, act),
+                                             currentDepth+1, nextAgent, scaledDepthLimit))
+        return value
+
+    def minValue(self, gameState, currentDepth, agentIndex, scaledDepthLimit):
+        value = +100000000
+        for act in gameState.getLegalActions(agentIndex):
+            nextAgent = (agentIndex + 1) % gameState.getNumAgents()
+            value = min(value, self.getValue(gameState.generateSuccessor(agentIndex, act),
+                                             currentDepth + 1, nextAgent, scaledDepthLimit))
+        return value
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """
