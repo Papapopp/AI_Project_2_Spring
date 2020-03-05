@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c34f088a-bc1d-4344-90f8-7631473c5131" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/multiagent.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/multiagent.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multiAgents.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiAgents.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +25,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.autograder">
     <configuration name="Manual Play" type="PythonConfigurationType" factoryName="Python">
@@ -101,22 +105,30 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="304" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1583182294006" />
-    <state width="1659" height="135" key="GridCell.Tab.0.bottom" timestamp="1583197920610">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state width="1659" height="348" key="GridCell.Tab.0.bottom" timestamp="1583206422405">
+      <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state width="1659" height="135" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1583197920610" />
-    <state width="1659" height="135" key="GridCell.Tab.0.center" timestamp="1583197920609">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state width="1659" height="348" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1583206422405" />
+    <state width="1659" height="348" key="GridCell.Tab.0.center" timestamp="1583206422404">
+      <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state width="1659" height="135" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1583197920609" />
-    <state width="1659" height="135" key="GridCell.Tab.0.left" timestamp="1583197920608">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state width="1659" height="348" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1583206422404" />
+    <state width="1659" height="348" key="GridCell.Tab.0.left" timestamp="1583206422402">
+      <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state width="1659" height="135" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1583197920608" />
-    <state width="1659" height="135" key="GridCell.Tab.0.right" timestamp="1583197920609">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state width="1659" height="348" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1583206422402" />
+    <state width="1659" height="348" key="GridCell.Tab.0.right" timestamp="1583206422405">
+      <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state width="1659" height="135" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1583197920609" />
+    <state width="1659" height="348" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1583206422405" />
+    <state x="349" y="164" key="SettingsEditor" timestamp="1583436655836">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="349" y="164" key="SettingsEditor/0.0.1680.1050@0.0.1680.1050" timestamp="1583436655836" />
     <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1583192839117">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
