@@ -220,15 +220,16 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Returns the minimax action using self.depth and self.evaluationFunction
         """
         scaledDepthLimit = self.depth*gameState.getNumAgents()
-        value = -100000000
-        alpha = 100000000
-        beta = -100000000
+        value = float("-inf")
+        alpha = float("-inf")
+        beta = float("inf")
         for action in gameState.getLegalActions(0):
             candidate = self.getValue(gameState.generateSuccessor(0, action),
                                              2, 1, scaledDepthLimit, alpha, beta)
             if candidate > value:
                 value = candidate
                 move = action
+            alpha = max(alpha, value)
         return move
 
 
@@ -253,18 +254,19 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
 
 
     def maxValue(self, gameState, currentDepth, agentIndex, scaledDepthLimit, alpha, beta):
-        value = -100000000
+        value = float("-inf")
         for act in gameState.getLegalActions(agentIndex):
-            nextAgent = (agentIndex+1)%gameState.getNumAgents()
+            nextAgent = (agentIndex+1) % gameState.getNumAgents()
             value = max(value, self.getValue(gameState.generateSuccessor(agentIndex, act),
                                              currentDepth+1, nextAgent, scaledDepthLimit, alpha, beta))
             if value > beta:
                 return value
             alpha = max(alpha, value)
+
         return value
 
     def minValue(self, gameState, currentDepth, agentIndex, scaledDepthLimit, alpha, beta):
-        value = +100000000
+        value = float("inf")
         for act in gameState.getLegalActions(agentIndex):
             nextAgent = (agentIndex + 1) % gameState.getNumAgents()
             value = min(value, self.getValue(gameState.generateSuccessor(agentIndex, act),
@@ -272,6 +274,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
             if value < alpha:
                 return value
             beta = min(beta, value)
+
         return value
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
