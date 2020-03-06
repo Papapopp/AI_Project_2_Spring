@@ -339,45 +339,37 @@ def betterEvaluationFunction(currentGameState):
     DESCRIPTION: <write something here so we know what you did>
     """
     # Useful information you can extract from a GameState (pacman.py)
-    actions = currentGameState.getLegalPacmanActions()
     pos = currentGameState.getPacmanState().getPosition()
-    food = currentGameState.getFood()
     ghostStates = currentGameState.getGhostStates()
 
     "Features to calculate: " \
-    "- avFoodDist || av distance from all food (excluding the one that may be eaten)" \
-    "+ dangerSense || av distance from all non-scared ghosts" \
-    "- huntingSense || av distance from all scared ghost" \
-    "+ winState || if this is the win state" \
-    "- loseState || if this is a lose state" \
-    "+ score || the current score at the sates"
-    avFoodDist = 0
-    foodList = food.asList()
-    for food in foodList:
-        avFoodDist += util.manhattanDistance(food, pos)
-    avFoodDist /= max(len(foodList), 1)
+    "+ dangerSense || av distance from all non-scared ghosts (zero if no ghosts are within 4 spaces)" \
+    "- foodCount || number of food left on the map" \
+    "+ score || the current score at the sates" \
+    "- capsNum || the umber of capsules left on the map"
+
     dangerSense = 0
     dangers = 0
     huntingSense = 0
+    closestGhost = float("inf")
     for ghost in ghostStates:
         if ghost.scaredTimer == 0:
             dangers += 1
             temp = util.manhattanDistance(pos, ghost.getPosition())
             dangerSense += temp
-            if temp < 2:
-                dangerSense -= temp
+            if temp < closestGhost:
+                closestGhost = temp
         else:
             huntingSense += util.manhattanDistance(pos, ghost.getPosition())
     dangerSense /= max(dangers, 1)
+    "don't worry about ghosts at all unless they are close"
+    if closestGhost >= 4:
+        dangerSense = 0
     huntingSense /= max(len(ghostStates) - dangers, 1)
-    winState = 0
-    if currentGameState.isWin():
-        winState = 1
-    loseState = 0
-    if currentGameState.isLose():
-        loseState = 1
-
-    return 0.3*dangerSense - huntingSense + 0.3*currentGameState.getScore() - 3*currentGameState.getNumFood()
+    foodCount = currentGameState.getNumFood()
+    score = currentGameState.getScore()
+    capsNum = len(currentGameState.getCapsules())
+    return 0.4*dangerSense + 0.3*score - 3*foodCount - 3*capsNum
 
 # Abbreviation
 better = betterEvaluationFunction
