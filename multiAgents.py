@@ -355,7 +355,7 @@ def betterEvaluationFunction(currentGameState):
     foodList = food.asList()
     for food in foodList:
         avFoodDist += util.manhattanDistance(food, pos)
-    avFoodDist /= max(food.count(), 1)
+    avFoodDist /= max(len(foodList), 1)
     dangerSense = 0
     dangers = 0
     huntingSense = 0
@@ -377,7 +377,7 @@ def betterEvaluationFunction(currentGameState):
     if currentGameState.isLose():
         loseState = 1
 
-    return -avFoodDist + 0.5*dangerSense - huntingSense
+    return 0.3*dangerSense - huntingSense + 0.3*currentGameState.getScore() - 3*currentGameState.getNumFood()
 
 # Abbreviation
 better = betterEvaluationFunction
